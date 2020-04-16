@@ -1,5 +1,6 @@
 from b3stockinfo import StockFactory
 
+
 stocks = ["flry3", "petr4"]
 reits = ["bcff11"]
 base_url = "https://statusinvest.com.br/acoes/%s"
@@ -13,3 +14,6 @@ for i in stocks:
 for i in reits:
     reit = factory.create(i, is_reit=True)
     print(reit)
+
+
+

@@ -1,5 +1,17 @@
 import re
+import json
 from requests_html import HTMLSession
+
+
+class _ComplexEncoder(json.JSONEncoder):
+    """ Complex Encoder """
+    def default(self, obj):
+        """ Default """
+
+        if hasattr(obj, '__dict__'):
+            return obj.__dict__
+        else:
+            return json.JSONEncoder.default(self, obj)
 
 
 class CssSelectors:
@@ -36,12 +48,14 @@ class ReitCssSelectors(CssSelectors):
 
 
 class Stock:
-    def __init__(self, payload, **kwargs):
-        self.payload = payload
+    def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 
     def __str__(self):
-        return str(self.__dict__)
+        return str(self.to_json())
+
+    def to_json(self):
+        return json.dumps(self.__dict__, sort_keys=False, indent=4, cls=_ComplexEncoder)
 
 
 class StockFactoryError(Exception):
@@ -62,7 +76,7 @@ class StockFactory:
             raise StockFactoryError(f"Unable to find stock ticker `{ticker}` in B3")
 
         attrs = self.get_attributes(payload, is_reit)
-        return Stock(payload, **attrs)
+        return Stock(**attrs)
 
     def get_attributes(self, payload, is_reit):
         name_ticker = self.find_selector(payload, CssSelectors.name, [self.name_parser])
