@@ -37,6 +37,21 @@ class StockCssSelectors(CssSelectors):
     p_ebitda = "div.width-auto:nth-child(2) > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
     p_ebit = "div.width-auto:nth-child(2) > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
     p_ativo = "div.width-auto:nth-child(2) > div:nth-child(5) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    ev_ebitda = "div.width-auto:nth-child(2) > div:nth-child(6) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    ev_ebit = "div.width-auto:nth-child(2) > div:nth-child(7) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    psr = "div.width-auto:nth-child(2) > div:nth-child(8) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    p_cap_giro = "div.width-auto:nth-child(2) > div:nth-child(9) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    p_ativo_circ_liq = "div.width-auto:nth-child(2) > div:nth-child(10) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    gross_margin = "div.width-auto:nth-child(2) > div:nth-child(11) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    ebitda_margin = "div.width-auto:nth-child(2) > div:nth-child(12) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    ebit_margin = "div.info:nth-child(13) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    net_margin = "div.info:nth-child(14) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    giro_ativo = "div.info:nth-child(15) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    roe = "div.info:nth-child(16) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    roa = "div.info:nth-child(17) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    roic = "div.info:nth-child(18) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    lpa = "div.info:nth-child(19) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
+    vpa = "div.info:nth-child(20) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)"
     # fmt: on
 
 
@@ -113,6 +128,22 @@ class StockFactory:
             "p_ebit": self.find_selector(payload, StockCssSelectors.p_ebit, [self.number_parser]),
             "p_ativo": self.find_selector(payload, StockCssSelectors.p_ativo, [self.number_parser]),
             "daily_liquidity_avg": self.find_selector(payload, StockCssSelectors.daily_liquidity_avg, [self.currency_parser]),
+            "ev_ebitda": self.find_selector(payload, StockCssSelectors.ev_ebitda, [self.number_parser]),
+            "ev_ebit": self.find_selector(payload, StockCssSelectors.ev_ebit, [self.number_parser]),
+            "psr": self.find_selector(payload, StockCssSelectors.psr, [self.number_parser]),
+            "p_cap_giro": self.find_selector(payload, StockCssSelectors.p_cap_giro, [self.number_parser]),
+            "p_ativo_circ_liq": self.find_selector(payload, StockCssSelectors.p_ativo_circ_liq, [self.number_parser]),
+            "gross_margin": self.find_selector(payload, StockCssSelectors.gross_margin, [self.number_parser]),
+            "ebitda_margin": self.find_selector(payload, StockCssSelectors.ebitda_margin, [self.number_parser]),
+            "ebit_margin": self.find_selector(payload, StockCssSelectors.ebit_margin, [self.number_parser]),
+            "net_margin": self.find_selector(payload, StockCssSelectors.net_margin, [self.number_parser]),
+            "giro_ativo": self.find_selector(payload, StockCssSelectors.giro_ativo, [self.number_parser]),
+            "roe": self.find_selector(payload, StockCssSelectors.roe, [self.number_parser]),
+            "roa": self.find_selector(payload, StockCssSelectors.roa, [self.number_parser]),
+            "roic": self.find_selector(payload, StockCssSelectors.roic, [self.number_parser]),
+            "lpa": self.find_selector(payload, StockCssSelectors.lpa, [self.number_parser]),
+            "vpa": self.find_selector(payload, StockCssSelectors.vpa, [self.number_parser]),
+
         }
         # fmt: on
         return stock_attrs
@@ -130,6 +161,7 @@ class StockFactory:
     @staticmethod
     def number_parser(value):
         value = value.replace(".", "")
+        value = value.replace("%", "")
         if "," in value:
             value = value.replace(",", ".")
             return float(value)
