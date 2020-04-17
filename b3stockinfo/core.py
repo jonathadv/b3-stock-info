@@ -1,29 +1,35 @@
-import json
 from requests_html import HTMLSession
+from .serializers import JsonSerializer
 from .selectors import STOCK_SELECTORS, REIT_SELECTORS
 
 
-class _ComplexEncoder(json.JSONEncoder):
-    """ Complex Encoder """
-
-    def default(self, obj):
-        """ Default """
-
-        if hasattr(obj, "__dict__"):
-            return obj.__dict__
-        else:
-            return json.JSONEncoder.default(self, obj)
-
-
-class Stock:
+class Stock(JsonSerializer):
     def __init__(self, **kwargs):
+        super()
+        self._ticker = None
+        self._name = None
+        self._currentValue = None
         self.__dict__.update(kwargs)
+
+    def attributes(self, display_dunder: bool = False):
+        attrs = []
+        for k in self.__dict__.keys():
+            if k.startswith("_") and not display_dunder:
+                continue
+            attrs.append(k)
+
+        return attrs
 
     def __str__(self):
         return str(self.to_json())
 
-    def to_json(self):
-        return json.dumps(self.__dict__, sort_keys=False, indent=4, cls=_ComplexEncoder)
+    def __repr__(self):
+        return (
+            f"{self.__class__.__name__}("
+            f"ticker='{self._ticker}', "
+            f"name='{self._name}', "
+            f"value={self._currentValue})"
+        )
 
 
 class StockFactoryError(Exception):
@@ -51,7 +57,10 @@ class StockFactory:
 
         attrs = {}
         for field, args in selectors.items():
-            attrs[field] = self.get_value(payload, args["selector"], args["parsers"])
+            value = self.get_value(payload, args["selector"], args["parsers"])
+            attrs[field] = value
+            if args.get("canonical"):
+                attrs[args.get("canonical")] = value
 
         return attrs
 

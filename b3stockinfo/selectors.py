@@ -6,18 +6,21 @@ from .formatters import fmt_currency, fmt_percentage
 # fmt: off
 _DEFAULT_SELECTORS = {
     "ticker": {
+        "canonical": "_ticker",
         "selector": "h1.lh-4",
         "parsers": [ticker_parser],
         "unit": None,
         "formatter": None,
     },
-    "name": {
+    "nome": {
+        "canonical": "_name",
         "selector": "h1.lh-4",
         "parsers": [name_parser],
         "unit": None,
         "formatter": None,
     },
     "valorAtual": {
+        "canonical": "_currentValue",
         "selector": ".special > div:nth-child(1) > div:nth-child(1) > strong:nth-child(3)",
         "parsers": [number_parser],
         "unit": CURRENCY,
@@ -58,6 +61,7 @@ _DEFAULT_SELECTORS = {
 
 _STOCK_SPECIFIC_SELECTORS = {
     "tipo": {
+        "canonical": "_type",
         "selector": ".top-info-md-3 > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(2)",
         "parsers": [],
         "unit": None,
