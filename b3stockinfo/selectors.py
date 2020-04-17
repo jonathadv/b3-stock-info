@@ -56,6 +56,18 @@ _DEFAULT_SELECTORS = {
         "unit": None,
         "formatter": None,
     },
+    "valorizacaoDozeMeses": {
+        "selector": "div.w-50:nth-child(5) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(3)",
+        "parsers": [number_parser],
+        "unit": PERCENTAGE,
+        "formatter": fmt_percentage,
+    },
+    "valorizacaoMesAtual": {
+        "selector": "div.w-50:nth-child(5) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > span:nth-child(2) > b:nth-child(2)",
+        "parsers": [number_parser],
+        "unit": PERCENTAGE,
+        "formatter": fmt_percentage,
+    },
 }
 
 
@@ -212,15 +224,35 @@ _REIT_SPECIFIC_SELECTORS = {
     "liquidezMediaDiaria": {
         "selector": ".p-0 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > strong:nth-child(2)",
         "parsers": [number_parser],
-        "unit": None,
-        "formatter": None,
+        "unit": CURRENCY,
+        "formatter": fmt_currency,
     },
-    "valorPatrimonialPorCota": {
+    "valorizacaoDozeMeses": {
+        "selector": "div.pb-7:nth-child(3) > div:nth-child(1) > div:nth-child(5) > div:nth-child(1) > div:nth-child(1) > strong:nth-child(3)",
+        "parsers": [number_parser],
+        "unit": PERCENTAGE,
+        "formatter": fmt_percentage,
+    },
+    "valorizacaoMesAtual": {
+        "selector": "div.pb-7:nth-child(3) > div:nth-child(1) > div:nth-child(5) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > span:nth-child(2) > b:nth-child(2)",
+        "parsers": [number_parser],
+        "unit": PERCENTAGE,
+        "formatter": fmt_percentage,
+    },
+    "patrimonio": {
         "selector": ".top-info-md-3 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > span:nth-child(2)",
         "parsers": [number_parser],
-        "unit": None,
-        "formatter": None,
+        "unit": CURRENCY,
+        "formatter": fmt_currency,
     },
+    "valorPatrimonialPorCota": {
+        "selector": "strong.value:nth-child(5)",
+        "parsers": [number_parser],
+        "unit": CURRENCY,
+        "formatter": fmt_currency,
+    },
+
+
 }
 
 STOCK_SELECTORS = copy.deepcopy(_DEFAULT_SELECTORS)
