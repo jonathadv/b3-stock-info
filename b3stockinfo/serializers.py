@@ -10,10 +10,9 @@ class JsonSerializer:
 class _ComplexEncoder(json.JSONEncoder):
     """ Complex Encoder """
 
-    def default(self, obj):
+    def default(self, o):  # pylint: disable=method-hidden
         """ Default """
 
-        if hasattr(obj, "__dict__"):
-            return obj.__dict__
-        else:
-            return json.JSONEncoder.default(self, obj)
+        if hasattr(o, "__dict__"):
+            return o.__dict__
+        return json.JSONEncoder.default(self, o)

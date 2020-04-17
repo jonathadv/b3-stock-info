@@ -1,8 +1,12 @@
-from typing import List, Callable
+from typing import Callable, List
+
 from requests import Response
+from requests.exceptions import RequestException
 from requests_html import HTMLSession
+
+from .exceptions import StockFactoryError
+from .selectors import REIT_SELECTORS, STOCK_SELECTORS
 from .serializers import JsonSerializer
-from .selectors import STOCK_SELECTORS, REIT_SELECTORS
 
 
 class Stock(JsonSerializer):
@@ -15,7 +19,7 @@ class Stock(JsonSerializer):
 
     def attributes(self, display_dunder: bool = False):
         attrs = []
-        for k in self.__dict__.keys():
+        for k in self.__dict__:
             if k.startswith("_") and not display_dunder:
                 continue
             attrs.append(k)
@@ -34,12 +38,8 @@ class Stock(JsonSerializer):
         )
 
 
-class StockFactoryError(Exception):
-    pass
-
-
 class StockFactory:
-    def __init__(self, base_url: str, timeout: int = 10):
+    def __init__(self, base_url: str, timeout: int = 1):
         self.base_url = base_url
         self.session = HTMLSession()
         self.timeout = timeout
@@ -49,11 +49,13 @@ class StockFactory:
 
         try:
             payload: Response = self.session.get(url, timeout=self.timeout)
-        except Exception as err:
-            raise StockFactoryError(f"Unable connect.", err)
+        except RequestException as err:
+            raise StockFactoryError(
+                f"An error has occurred while calling url=[{url}].", err
+            ) from None
 
         if "/error" in payload.url:
-            raise StockFactoryError(f"Unable to find Stock ticker `{ticker}` in B3")
+            raise StockFactoryError(f"Unable to find Stock ticker `{ticker}`")
 
         attrs = self.get_attributes(payload, is_reit)
         return Stock(**attrs)
@@ -82,5 +84,5 @@ class StockFactory:
 
             return value
 
-        except Exception as err:
+        except Exception:
             return None

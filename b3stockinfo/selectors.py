@@ -1,7 +1,8 @@
 import copy
-from .parsers import number_parser, name_parser, ticker_parser
-from .units import CURRENCY, PERCENTAGE
+
 from .formatters import fmt_currency, fmt_percentage
+from .parsers import name_parser, number_parser, ticker_parser
+from .units import CURRENCY, PERCENTAGE
 
 # pylint: disable=line-too-long
 # fmt: off
