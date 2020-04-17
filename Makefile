@@ -1,3 +1,5 @@
+MODULE_NAME = b3stockinfo
+
 default: help
 
 upgrade-dist-tools:
@@ -9,7 +11,7 @@ install:
 
 # Run pylint
 lint:
-	pipenv run pylint ./setup.py pypoabus tests
+	pipenv run pylint $(MODULE_NAME)
 
 
 # Run tests with pytest
@@ -19,7 +21,7 @@ test:
 
 # Run tests with pytest and coverage
 test-cov:
-	pipenv run pytest -s --verbose --cov-report term-missing --cov=pypoabus ./tests
+	pipenv run pytest -s --verbose --cov-report term-missing --cov=$(MODULE_NAME) ./tests
 
 
 # Upload coverage report o codecov.io
@@ -41,7 +43,7 @@ isort:
 
 # Format with black
 format:
-	pipenv run black b3stockinfo
+	pipenv run black $(MODULE_NAME)
 
 
 # Upload dist content to test.pypi.org

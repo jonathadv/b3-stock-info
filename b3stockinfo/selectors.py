@@ -3,6 +3,7 @@ from .parsers import number_parser, name_parser, ticker_parser
 from .units import CURRENCY, PERCENTAGE
 from .formatters import fmt_currency, fmt_percentage
 
+# pylint: disable=line-too-long
 # fmt: off
 _DEFAULT_SELECTORS = {
     "ticker": {
@@ -20,7 +21,7 @@ _DEFAULT_SELECTORS = {
         "formatter": None,
     },
     "valorAtual": {
-        "canonical": "_currentValue",
+        "canonical": "_value",
         "selector": ".special > div:nth-child(1) > div:nth-child(1) > strong:nth-child(3)",
         "parsers": [number_parser],
         "unit": CURRENCY,

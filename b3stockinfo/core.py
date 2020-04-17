@@ -10,7 +10,7 @@ class Stock(JsonSerializer):
         super()
         self._ticker = None
         self._name = None
-        self._currentValue = None
+        self._value = None
         self.__dict__.update(kwargs)
 
     def attributes(self, display_dunder: bool = False):
@@ -30,7 +30,7 @@ class Stock(JsonSerializer):
             f"{self.__class__.__name__}("
             f"ticker='{self._ticker}', "
             f"name='{self._name}', "
-            f"value={self._currentValue})"
+            f"value={self._value})"
         )
 
 
