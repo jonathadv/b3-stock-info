@@ -1,0 +1,2 @@
+PERCENTAGE = "%"
+CURRENCY = "R$"
